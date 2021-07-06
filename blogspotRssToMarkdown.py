@@ -21,6 +21,8 @@
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
 import feedparser
+import os.path
+directory = './html/'
 # nenez9595.blogspot.com/feeds/posts/default?start-index=3?max-results=500
 # nenez9595.blogspot.com/feeds/posts/default?n=1000
 # nenez9595.blogspot.com/feeds/posts/default?alt=json
@@ -46,14 +48,18 @@ for item in items:
     print("Link - "+link)
     fileName = year + '-' + mon  + '-' + day + '-' + slug + '.md'
     fileName = fileName.replace('/', '')
-    f = open(fileName,'w')
+    file_path = os.path.join(directory, fileName)
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+    f = open(file_path,'w')
     value = item["content"][0]['value']
-    f.write('---\nlayout: post\ntitle: ' + title + '\n')
-    f.write('---\ndate: ' + clock + '\n')
+    f.write('---\nlayout: post\ntitle: "' + title + '"\n')
+    f.write('\ndate: ' + clock + '\n')
     f.write('draft: false\ntype: post\n')
     f.write('---\n')
-    f.write('{{< rawhtml >}}')
+    f.write('{{< rawhtml >}}\n\n')
     f.write(value)
-    f.write('{{</ rawhtml >}}')
-    f.write('\Link: ['+link+']('+link+')\n')
+    f.write('\n\n{{</ rawhtml >}}')
+    f.write('\nLink: ['+link+']('+link+')\n')
+    f.close()
 print('end')
