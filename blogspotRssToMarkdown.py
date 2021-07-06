@@ -55,4 +55,5 @@ for item in items:
     f.write('{{< rawhtml >}}')
     f.write(value)
     f.write('{{</ rawhtml >}}')
+    f.write('\Link: ['+link+']('+link+')\n')
 print('end')
