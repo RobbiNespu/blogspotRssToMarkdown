@@ -22,6 +22,7 @@
 
 import feedparser
 import os.path
+from markdownify import markdownify
 directory = './html/'
 # nenez9595.blogspot.com/feeds/posts/default?start-index=3?max-results=500
 # nenez9595.blogspot.com/feeds/posts/default?n=1000
@@ -57,9 +58,7 @@ for item in items:
     f.write('\ndate: ' + clock + '\n')
     f.write('draft: false\ntype: post\n')
     f.write('---\n')
-    f.write('{{< rawhtml >}}\n\n')
-    f.write(value)
-    f.write('\n\n{{</ rawhtml >}}')
+    f.write(markdownify(value))
     f.write('\nLink: ['+link+']('+link+')\n')
     f.close()
 print('end')
