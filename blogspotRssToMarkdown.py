@@ -22,6 +22,7 @@
 
 import feedparser
 import os.path
+import re
 from markdownify import markdownify
 from urllib.parse import urlparse
 directory = './html/'
@@ -50,7 +51,7 @@ def main():
             #print(item)
             time = item[ "published_parsed" ]
             title = item[ "title" ]
-            slug = item[ "title" ].replace(' ', '-').lower().replace('?', '').replace('#', '')
+            slug = re.sub('[^a-zA-Z-]+', '-', item[ "title" ].lower())
             year = str(time.tm_year)
             mon = str(time.tm_mon)
             day = str(time.tm_mday)
