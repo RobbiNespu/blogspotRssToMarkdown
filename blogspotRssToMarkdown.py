@@ -51,7 +51,8 @@ def main():
             #print(item)
             time = item[ "published_parsed" ]
             title = item[ "title" ]
-            slug = re.sub('[^a-zA-Z-]+', '-', item[ "title" ].lower())
+            slug_title = re.sub('[^a-zA-Z-]+', '-', item[ "title" ].lower())
+            slug_timestamp = item["published"][0:10]
             year = str(time.tm_year)
             mon = str(time.tm_mon)
             day = str(time.tm_mday)
@@ -60,7 +61,7 @@ def main():
             #print("Title:"+title)
             link = item[ "link" ]
             #print("Link - "+link)
-            fileName = year + '-' + mon  + '-' + day + '-' + slug + '.md'
+            fileName = slug_timestamp + '-' + slug_title + '.md'
             fileName = fileName.replace('/', '')
             file_path = os.path.join(directory, fileName)
             if not os.path.isdir(directory):
@@ -68,11 +69,13 @@ def main():
             f = open(file_path,'w')
             value = item["content"][0]['value']
             f.write('---\nlayout: post\ntitle: "' + title + '"\n')
-            f.write('\ndate: ' + clock + '\n')
-            f.write('draft: false\ntype: post\n')
+            f.write('date: ' + clock + '\n')
+            f.write('draft: false\ntype: blog\n')
+            f.write('meta_img: image/hj_sazali_meta.jpg \n')
+            f.writable('conical: "'+link+'" \n')
             f.write('---\n')
             f.write(markdownify(value))
-            f.write('\nLink: ['+link+']('+link+')\n')
+            f.write('\n\nOriginal link: ['+link+']('+link+')\n')
             f.close()
         print('end')
     # Closing files
